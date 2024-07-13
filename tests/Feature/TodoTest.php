@@ -48,7 +48,6 @@ class TodoTest extends TestCase
     /** @test */
     public function the_task_can_be_updated()
     {
-        $this->withoutExceptionHandling();
         $this->post("/MyTodos", [
             "label"=> "first task",
             "user"=> "ayoub",
@@ -62,7 +61,23 @@ class TodoTest extends TestCase
         ]);
 
         $this->assertEquals("first task update", Todo::first()->label);
+        $response->assertRedirect("/MyTodos");
     }
+    
+    /** @test */
+    public function a_task_can_be_deleted()
+    {
+        $this->post("/MyTodos", [
+            "label"=> "first task",
+            "user"=> "ayoub",
+        ]);
 
+        $todo = Todo::first();
+        $this->assertCount(1, Todo::all());
+
+        $response = $this->delete( '/MyTodos/'. $todo->id);
+        $this->assertCount(0, Todo::all());
+        $response->assertRedirect("/MyTodos");
+    }
 
 }

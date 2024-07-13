@@ -17,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 route::post("/MyTodos", [TodoController::class , "store"]);
 
 Route::patch("/MyTodos/{todo}", [TodoController::class ,"update"]);
+
+Route::delete("/MyTodos/{todo}", [TodoController::class ,"destroy"]);

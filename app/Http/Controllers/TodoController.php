@@ -14,9 +14,16 @@ class TodoController extends Controller
     public function update(Todo $todo)
     {
         $todo->update($this->validateRequest());
+        return redirect("/MyTodos");
     }
 
-    public function validateRequest()
+    public function destroy(Todo $todo)
+    {
+        $todo->delete();
+        return redirect("/MyTodos");
+    }
+
+    protected function validateRequest()
     {
         return request()->validate([
             "label"=> 'required',
